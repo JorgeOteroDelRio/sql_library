@@ -155,7 +155,7 @@ public class DataBase {
      *
      * @throws java.sql.SQLException
      */
-    public void cerrarConexion() throws SQLException{
+    public static void cerrarConexion() throws SQLException{
         s.close();
         conexion.close();
     }
