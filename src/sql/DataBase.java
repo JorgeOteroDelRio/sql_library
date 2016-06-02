@@ -70,6 +70,12 @@ public class DataBase {
         int n= s.executeUpdate("delete from " + tabla + " where " + primaryKeyCol + "=" + "'" + primaryKeyVal + "';");
         return n;
     }
+    
+    public static int update(String tabla, String columna, String primaryKeyCol, String primaryKeyVal, String valor) throws SQLException {
+        int n = s.executeUpdate("update " + tabla + " set " + columna + " = +'" + valor + "' where " + primaryKeyCol + " = '"
+                + primaryKeyVal + "';");
+        return n;
+    }
 
     
     
