@@ -49,6 +49,21 @@ public class DataBase {
         s = conexion.createStatement();
         return s.executeUpdate(consulta);
     }
+    
+    public static ResultSet consultarDatos(String tabla, String[] campos) throws SQLException {
+        ResultSet rs;
+        String consulta = "select ";
+        s = conexion.createStatement();
+        for (int i = 0; i < campos.length; i++) {
+            if (i == campos.length - 1) {
+                consulta += campos[i] + " from " + tabla + " ;";
+            } else {
+                consulta += campos[i] + ",";
+            }
+        }
+        rs = s.executeQuery(consulta);
+        return rs;
+    }
 
     
     
