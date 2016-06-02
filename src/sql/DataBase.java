@@ -20,7 +20,15 @@ public class DataBase {
     private static Connection conexion;
     private static Statement s;
 
-    
+    /**
+     * Necesario para utilizar la librería, crea el flujo de datos entre
+     * el programa y la base de datos.
+     * @param servidor La ip o nombre del servidor
+     * @param bd EL nombre de la base de datos
+     * @param usuario El nombre de usuario
+     * @param contraseña La contraseña del usuario
+     * @return Mensaje de la conexión
+     */
     public static String conectar(String servidor,String bd, String usuario, String contraseña) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -34,6 +42,13 @@ public class DataBase {
 
     }
     
+    /**
+     * Sirve para insertar registros en la tabla deseada
+     * @param tabla Nombre de la tabla
+     * @param valores Un array de valores para insertar en la tabla
+     * @return Número de filas afectadas
+     * @throws SQLException 
+     */
     public static int insertar(String tabla, String[] valores) throws SQLException {
 
         String consulta = "insert into " + tabla + " values(";
@@ -50,6 +65,14 @@ public class DataBase {
         return s.executeUpdate(consulta);
     }
     
+    /**
+     * Devuelve todos los registros de la tabla deseada
+     *
+     * @param tabla EL nombre de la tabla que se quiere consultar
+     * @param campos Los nombres de las columnas que se quieren consultar
+     * @return Un objeto ResultSet que almacena los registros de la tabla
+     * @throws java.sql.SQLException
+     */
     public static ResultSet consultarDatos(String tabla, String[] campos) throws SQLException {
         ResultSet rs;
         String consulta = "select ";
@@ -65,18 +88,51 @@ public class DataBase {
         return rs;
     }
     
+    /**
+     * Elimina un registro de una tabla
+     *
+     * @param tabla EL nombre de la tabla en la que se quiere eliminar un
+     * registro
+     * @param primaryKeyCol El nombre de la columna que es clave primaria
+     * @param primaryKeyVal El valor de la clave primaria
+     * @return Número de filas afectadas
+     * @throws java.sql.SQLException
+     */
     public static int eliminar(String tabla, String primaryKeyCol, String primaryKeyVal) throws SQLException {
         s = conexion.createStatement();
         int n= s.executeUpdate("delete from " + tabla + " where " + primaryKeyCol + "=" + "'" + primaryKeyVal + "';");
         return n;
     }
     
+    /**
+     * Actualiza un campo de un registro
+     *
+     * @param tabla El nombre de la tabla donde se va a actualizar el registro
+     * @param columna El nombre de la columna que se quiere actualizar
+     * @param primaryKeyCol El nombre del campo que es clave primaria
+     * @param primaryKeyVal El valor de la clave primaria en el registro que se
+     * quiere actualizar
+     * @param valor El valor que se le va a dar en la actualización
+     * @return El número de filas afectadas
+     * @throws java.sql.SQLException
+     */
+    
     public static int update(String tabla, String columna, String primaryKeyCol, String primaryKeyVal, String valor) throws SQLException {
         int n = s.executeUpdate("update " + tabla + " set " + columna + " = +'" + valor + "' where " + primaryKeyCol + " = '"
                 + primaryKeyVal + "';");
         return n;
     }
-
+    
+    /**
+     * Devuelve los registros de la tabla donde la columna de búsqueda contenga el valor de búsqueda
+     * @param colBusqueda nombre de la columna en la cual se quiere buscar la cadena de valorBusqueda
+     * @param valorBusqueda es la cadena de caracteres que se va a buscar en la columna de búsqueda
+     * @param tabla EL nombre de la tabla que se quiere consultar
+     * @param campos Los nombres de las columnas que se quieren consultar
+     * @return Un objeto ResultSet que almacena los registros de la tabla
+     * @throws java.sql.SQLException
+     */
+    
     public static ResultSet buscar(String tabla, String[] campos,String colBusqueda,String valorBusqueda)throws SQLException{
         ResultSet rs;
         String consulta = "select ";
@@ -93,6 +149,12 @@ public class DataBase {
         return rs;
     }
     
+    /**
+     * Cierra el flujo de datos con el servidor y libera todos los recursos
+     * asociados a este
+     *
+     * @throws java.sql.SQLException
+     */
     public void cerrarConexion() throws SQLException{
         s.close();
         conexion.close();
