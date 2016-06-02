@@ -93,5 +93,9 @@ public class DataBase {
         return rs;
     }
     
+    public void cerrarConexion() throws SQLException{
+        s.close();
+        conexion.close();
+    }
     
 }
