@@ -34,6 +34,23 @@ public class DataBase {
 
     }
     
+    public static int insertar(String tabla, String[] valores) throws SQLException {
+
+        String consulta = "insert into " + tabla + " values(";
+        for (int i = 0; i < valores.length; i++) {
+            if (i < valores.length-1) {
+                consulta += "'" + valores[i] + "',";
+            } else {
+                consulta += "'" + valores[i] + "'";
+            }
+        }
+        consulta += ");";
+
+        s = conexion.createStatement();
+        return s.executeUpdate(consulta);
+    }
+
+    
     
     
 }
